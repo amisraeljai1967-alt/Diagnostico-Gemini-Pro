@@ -1,10 +1,12 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación Diagnóstica - Gemini Pro</title>
-    <!-- Script de diseño corregido (sin corchetes) -->
+    <!-- EL SECRETO ESTÁ AQUÍ: Esta línea debe estar exactamente así -->
     <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
 </head>
 <body class="bg-slate-50 p-6 min-h-screen">
@@ -12,6 +14,11 @@
         <header class="text-center mb-10 border-b pb-6">
             <h1 class="text-3xl font-bold text-indigo-600">Evaluación Diagnóstica</h1>
             <p class="text-slate-500 italic mt-2">Curso: Gemini Pro: Multiplica tu Productividad</p>
+            <div class="mt-4 flex justify-center space-x-4 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <span>Estándar EC0301</span>
+                <span>•</span>
+                <span>Estándar EC0217.01</span>
+            </div>
         </header>
 
         <form id="quiz-form" class="space-y-6">
@@ -55,10 +62,10 @@
             </button>
         </form>
 
-        <div id="res" class="mt-8 hidden p-6 bg-indigo-50 border-2 border-indigo-200 rounded-2xl text-center font-bold text-indigo-900 animate-pulse text-xl"></div>
+        <div id="res" class="mt-8 hidden p-6 bg-indigo-50 border-2 border-indigo-200 rounded-2xl text-center font-bold text-indigo-900 text-xl"></div>
     </div>
     
-    <footer class="text-center mt-10 text-slate-400 text-sm">
+    <footer class="text-center mt-10 text-slate-400 text-sm pb-10">
         &copy; 2024 Nexo IA Auditoría | Facilitadora Lourdes Garza
     </footer>
 
@@ -73,7 +80,7 @@
             }
             const res = document.getElementById('res');
             res.classList.remove('hidden');
-            res.textContent = "¡Felicidades! Tu Resultado: " + score + " de " + total + " respuestas correctas.";
+            res.textContent = "¡Felicidades! Resultado: " + score + " de " + total + " correctas.";
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
     </script>
