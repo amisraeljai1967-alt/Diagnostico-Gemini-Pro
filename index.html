@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación Diagnóstica - Gemini Pro</title>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+</head>
+<body class="bg-slate-50 p-6">
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md border border-slate-200">
+        <h1 class="text-2xl font-bold text-center text-indigo-600 mb-6">Evaluación Diagnóstica: Gemini Pro</h1>
+        <form id="quiz-form" class="space-y-6">
+            <div>
+                <p class="font-semibold text-slate-700">1. ¿Qué es un LLM como Gemini Pro?</p>
+                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
+                    <input type="radio" name="q1" value="b" class="mr-2"> Un motor de razonamiento estadístico.
+                </label>
+            </div>
+            <div>
+                <p class="font-semibold text-slate-700">2. ¿Qué es la capacidad multimodal?</p>
+                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
+                    <input type="radio" name="q2" value="c" class="mr-2"> Procesar texto, imagen y video simultáneamente.
+                </label>
+            </div>
+            <div>
+                <p class="font-semibold text-slate-700">3. ¿Qué es el Contexto en un prompt?</p>
+                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
+                    <input type="radio" name="q3" value="b" class="mr-2"> Información de fondo para limitar la respuesta.
+                </label>
+            </div>
+            <div>
+                <p class="font-semibold text-slate-700">4. ¿Para qué sirven las Extensiones?</p>
+                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
+                    <input type="radio" name="q4" value="b" class="mr-2"> Conectar la IA con datos de Google Workspace.
+                </label>
+            </div>
+            <div>
+                <p class="font-semibold text-slate-700">5. ¿Qué es una alucinación?</p>
+                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
+                    <input type="radio" name="q5" value="b" class="mr-2"> Información falsa que suena coherente.
+                </label>
+            </div>
+            <button type="button" onclick="check()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold transition-colors">
+                Finalizar Evaluación
+            </button>
+        </form>
+        <div id="res" class="mt-6 hidden p-4 bg-indigo-50 border border-indigo-100 rounded-lg text-center font-bold text-indigo-900"></div>
+    </div>
+    <script>
+        function check(){
+            const ans = {q1:'b',q2:'c',q3:'b',q4:'b',q5:'b'};
+            let score = 0;
+            let total = 5;
+            for(let q in ans){
+                const sel = document.querySelector(`input[name="${q}"]:checked`);
+                if(sel && sel.value === ans[q]) score++;
+            }
+            const res = document.getElementById('res');
+            res.classList.remove('hidden');
+            res.textContent = "Tu Resultado: " + score + " de " + total + " respuestas correctas.";
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
