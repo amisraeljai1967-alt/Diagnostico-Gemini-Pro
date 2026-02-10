@@ -40,14 +40,15 @@
                 <div class="max-w-sm mx-auto">
                     <input type="text" id="student-name" placeholder="Tu nombre completo" 
                         class="w-full p-4 border-2 border-slate-200 rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50 outline-none text-xl text-center transition-all mb-4">
-                    <button onclick="startQuiz()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all transform active:scale-95 text-lg">
+                    <button id="btn-start" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all transform active:scale-95 text-lg">
                         Comenzar Evaluación <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
             </div>
 
             <!-- PASO 2: Cuestionario -->
-            <form id="quiz-form" class="hidden space-y-8 animate-result">
+            <!-- Agregamos onsubmit para prevenir recargas en servidores estáticos como GitHub -->
+            <form id="quiz-form" onsubmit="event.preventDefault();" class="hidden space-y-8 animate-result">
                 <!-- Preguntas -->
                 <div class="question-block">
                     <p class="text-lg font-semibold mb-4 text-slate-800">1. ¿Qué es un LLM (Large Language Model) como Gemini Pro?</p>
@@ -139,7 +140,7 @@
                     </div>
                 </div>
 
-                <button type="button" id="btn-submit" onclick="calculateAndSave()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all text-lg">
+                <button type="button" id="btn-submit" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all text-lg">
                     Finalizar Evaluación <i class="fas fa-check-circle ml-2"></i>
                 </button>
             </form>
@@ -158,17 +159,17 @@
         <!-- PANEL DE CONTROL PARA LOURDES -->
         <div class="mt-20 border-t border-slate-200 pt-10">
             <div class="flex justify-center mb-4">
-                <button onclick="toggleAdmin()" class="bg-slate-200 hover:bg-indigo-600 hover:text-white text-slate-500 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
+                <button id="btn-admin-toggle" class="bg-slate-200 hover:bg-indigo-600 hover:text-white text-slate-500 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
                     <i class="fas fa-user-shield mr-2"></i> Panel de Instructora
                 </button>
             </div>
             
-            <!-- Modal de contraseña (se activa al pulsar el botón) -->
+            <!-- Modal de contraseña -->
             <div id="admin-auth" class="hidden mt-6 bg-white p-8 rounded-2xl shadow-xl border border-indigo-100 animate-result">
                 <h3 class="text-center font-bold text-slate-800 mb-4 uppercase text-xs tracking-widest">Acceso Restringido</h3>
                 <div class="flex gap-2 max-w-xs mx-auto">
                     <input type="password" id="admin-pass" placeholder="Código" class="flex-1 p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
-                    <button onclick="checkPassword()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold">Entrar</button>
+                    <button id="btn-auth-confirm" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold">Entrar</button>
                 </div>
             </div>
 
@@ -204,6 +205,7 @@
 
         let user = null;
         let isAuth = false;
+        let activeName = "";
 
         const initAuth = async () => {
             try {
@@ -223,13 +225,14 @@
 
         initAuth();
 
-        window.startQuiz = () => {
+        // Vinculación de eventos mejorada para entornos externos (GitHub)
+        document.getElementById('btn-start').addEventListener('click', () => {
             const name = document.getElementById('student-name').value.trim();
             if (name.length < 3) return alert("Escribe tu nombre completo.");
-            window.activeName = name;
+            activeName = name;
             document.getElementById('step-name').classList.add('hidden');
             document.getElementById('quiz-form').classList.remove('hidden');
-        };
+        });
 
         const saveToFirestore = async (docRef, data, retries = 5, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
@@ -244,8 +247,10 @@
             }
         };
 
-        window.calculateAndSave = async () => {
-            if (!user) return alert("Esperando conexión...");
+        document.getElementById('btn-submit').addEventListener('click', async (e) => {
+            e.preventDefault(); // Evita recarga en GitHub
+            if (!user) return alert("Esperando conexión con el servidor...");
+            
             const btn = document.getElementById('btn-submit');
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Guardando...';
@@ -264,7 +269,7 @@
                 const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'respuestas', docId);
                 
                 await saveToFirestore(docRef, {
-                    alumno: window.activeName,
+                    alumno: activeName,
                     puntos: score,
                     fecha: new Date().toISOString(),
                     uid: user.uid
@@ -274,26 +279,24 @@
                 document.getElementById('result-box').classList.remove('hidden');
                 document.getElementById('score-text').textContent = score + " / 5 Aciertos";
             } catch (e) {
-                alert("Error al guardar. Inténtalo de nuevo.");
+                alert("Error al guardar resultados. Por favor, revisa tu conexión.");
                 btn.disabled = false;
                 btn.innerHTML = 'Finalizar Evaluación <i class="fas fa-check-circle ml-2"></i>';
             }
-        };
+        });
 
-        // Lógica de Panel de Instructora con Contraseña
-        window.toggleAdmin = () => {
+        // Panel Admin
+        document.getElementById('btn-admin-toggle').addEventListener('click', () => {
             if (isAuth) {
-                const panel = document.getElementById('admin-panel');
-                panel.classList.toggle('hidden');
+                document.getElementById('admin-panel').classList.toggle('hidden');
             } else {
-                const authBox = document.getElementById('admin-auth');
-                authBox.classList.toggle('hidden');
+                document.getElementById('admin-auth').classList.toggle('hidden');
             }
-        };
+        });
 
-        window.checkPassword = () => {
+        document.getElementById('btn-auth-confirm').addEventListener('click', () => {
             const pass = document.getElementById('admin-pass').value;
-            const adminPass = "1234"; // CAMBIA TU CONTRASEÑA AQUÍ
+            const adminPass = "1234"; 
 
             if (pass === adminPass) {
                 isAuth = true;
@@ -303,7 +306,7 @@
             } else {
                 alert("Código incorrecto");
             }
-        };
+        });
 
         function loadAdminData() {
             if (!user) return;
@@ -322,7 +325,7 @@
                     row.innerHTML = `<div><div class="font-bold">${d.alumno}</div><div class="text-[10px] text-slate-400">${new Date(d.fecha).toLocaleTimeString()}</div></div><div class="font-black text-indigo-400 text-xl">${d.puntos}/5</div>`;
                     list.appendChild(row);
                 });
-            }, (err) => console.error("Snapshot error:", err));
+            }, (err) => console.error("Error al cargar datos:", err));
         }
     </script>
 </body>
