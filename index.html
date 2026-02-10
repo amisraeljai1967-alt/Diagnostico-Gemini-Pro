@@ -10,6 +10,7 @@
         .option-card:hover { transform: translateY(-2px); transition: all 0.2s; border-color: #6366f1; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-result { animation: fadeIn 0.6s ease-out forwards; }
+        /* Forzamos que hidden funcione siempre */
         .hidden { display: none !important; }
     </style>
 </head>
@@ -36,7 +37,8 @@
                 <div class="max-w-sm mx-auto">
                     <input type="text" id="student-name" placeholder="Nombre completo" 
                         class="w-full p-4 border-2 border-slate-200 rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50 outline-none text-xl text-center mb-4">
-                    <button type="button" onclick="startApp()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-indigo-700 transition-all text-lg">
+                    <!-- Evento directo -->
+                    <button type="button" onclick="startAppNow()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-indigo-700 transition-all text-lg">
                         Comenzar Evaluación <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </div>
@@ -58,8 +60,7 @@
                         <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card"><input type="radio" name="q2" value="b" class="mr-3"><span>b) Traducción a muchos idiomas.</span></label>
                     </div>
                 </div>
-                <!-- ... más preguntas si deseas ... -->
-                <button type="button" onclick="submitQuiz()" id="btn-submit" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all text-lg">
+                <button type="button" onclick="submitQuizNow()" id="btn-submit" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all text-lg">
                     Finalizar Evaluación <i class="fas fa-check-circle ml-2"></i>
                 </button>
             </form>
@@ -68,54 +69,55 @@
             <div id="result-box" class="hidden mt-8 p-10 bg-indigo-50 border-2 border-indigo-200 rounded-2xl text-center animate-result">
                 <p class="text-4xl font-black text-indigo-900 mb-2" id="score-text"></p>
                 <p class="text-slate-700 text-lg mb-6">Resultados registrados.</p>
-                <div class="bg-white p-6 rounded-2xl border border-indigo-100 inline-block">
-                    <p class="text-slate-600 text-lg italic">Espera a que la instructora inicie el <b>Módulo 1</b>.</p>
+                <div class="bg-white p-6 rounded-2xl border border-indigo-100 inline-block shadow-sm">
+                    <p class="text-slate-600 text-lg italic">"Por favor, espera a que la instructora inicie el <b>Módulo 1</b>."</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // LÓGICA DE NAVEGACIÓN GLOBAL (Funciona aunque Firebase falle)
-        let activeName = "";
+        /** LÓGICA ULTRA-SIMPLE E INDEPENDIENTE **/
+        var activeUserName = "";
 
-        function startApp() {
-            const nameField = document.getElementById('student-name');
-            const name = nameField ? nameField.value.trim() : "";
+        function startAppNow() {
+            var input = document.getElementById('student-name');
+            var name = input ? input.value.trim() : "";
+            
             if (name.length < 3) {
                 alert("Por favor, ingresa tu nombre completo.");
                 return;
             }
-            activeName = name;
+            
+            activeUserName = name;
             document.getElementById('step-name').classList.add('hidden');
             document.getElementById('quiz-form').classList.remove('hidden');
             window.scrollTo(0,0);
-            console.log("App iniciada para:", activeName);
         }
 
-        async function submitQuiz() {
-            const btn = document.getElementById('btn-submit');
+        async function submitQuizNow() {
+            var btn = document.getElementById('btn-submit');
             btn.disabled = true;
-            btn.innerHTML = "Guardando...";
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Guardando...';
 
-            let score = 0;
-            const q1 = document.querySelector('input[name="q1"]:checked');
-            const q2 = document.querySelector('input[name="q2"]:checked');
+            var score = 0;
+            var q1 = document.querySelector('input[name="q1"]:checked');
+            var q2 = document.querySelector('input[name="q2"]:checked');
             if(q1 && q1.value === 'b') score++;
             if(q2 && q2.value === 'c') score++;
 
-            // Intentar guardar en Firebase si está disponible
-            if (window.saveToFirebase) {
+            // Intentar guardar si el módulo de Firebase cargó
+            if (window.firebaseSaveFunction) {
                 try {
-                    await window.saveToFirebase(activeName, score);
+                    await window.firebaseSaveFunction(activeUserName, score);
                 } catch (e) {
-                    console.error("Error al guardar en la nube, pero avanzamos localmente.");
+                    console.warn("Fallo en la nube, pero continuamos.");
                 }
             }
 
             document.getElementById('quiz-form').classList.add('hidden');
             document.getElementById('result-box').classList.remove('hidden');
-            document.getElementById('score-text').textContent = score + " Aciertos";
+            document.getElementById('score-text').innerText = score + " Aciertos";
         }
     </script>
 
@@ -124,30 +126,27 @@
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        // EL TRUCO: Intentar leer la config, si no existe (como en GitHub), no romper el código
-        let config = null;
         try {
             if (typeof __firebase_config !== 'undefined') {
-                config = JSON.parse(__firebase_config);
+                const config = JSON.parse(__firebase_config);
+                const app = initializeApp(config);
+                const db = getFirestore(app);
+                const auth = getAuth(app);
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'eval-diagnostica';
+
+                signInAnonymously(auth);
+
+                window.firebaseSaveFunction = async (name, score) => {
+                    const docId = 'res_' + Date.now();
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'respuestas', docId), {
+                        alumno: name,
+                        puntos: score,
+                        fecha: new Date().toISOString()
+                    });
+                };
             }
-        } catch (e) { console.log("Fuera de entorno Canvas."); }
-
-        if (config) {
-            const app = initializeApp(config);
-            const db = getFirestore(app);
-            const auth = getAuth(app);
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'eval-diagnostica';
-
-            signInAnonymously(auth);
-
-            window.saveToFirebase = async (name, score) => {
-                const docId = `res_${Date.now()}`;
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'respuestas', docId), {
-                    alumno: name,
-                    puntos: score,
-                    fecha: new Date().toISOString()
-                });
-            };
+        } catch (err) {
+            console.log("Firebase no configurado o bloqueado.");
         }
     </script>
 </body>
