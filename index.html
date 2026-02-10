@@ -1,12 +1,10 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación Diagnóstica - Gemini Pro</title>
-    <!-- EL SECRETO ESTÁ AQUÍ: Esta línea debe estar exactamente así -->
+    <!-- Script de diseño corregido -->
     <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
 </head>
 <body class="bg-slate-50 p-6 min-h-screen">
@@ -22,39 +20,84 @@
         </header>
 
         <form id="quiz-form" class="space-y-6">
+            <!-- Pregunta 1 -->
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                 <p class="font-bold text-slate-700 mb-3">1. ¿Qué es un LLM como Gemini Pro?</p>
-                <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
-                    <input type="radio" name="q1" value="b" class="mr-2"> Un motor de razonamiento estadístico.
-                </label>
+                <div class="space-y-2">
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q1" value="a" class="mr-2"> a) Un buscador avanzado de internet que solo entrega enlaces.
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q1" value="b" class="mr-2"> b) Un motor de razonamiento estadístico para generar lenguaje.
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q1" value="c" class="mr-2"> c) Una base de datos estática que almacena archivos de Excel.
+                    </label>
+                </div>
             </div>
             
+            <!-- Pregunta 2 -->
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                 <p class="font-bold text-slate-700 mb-3">2. ¿Qué es la capacidad multimodal?</p>
-                <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
-                    <input type="radio" name="q2" value="c" class="mr-2"> Procesar texto, imagen y video simultáneamente.
-                </label>
+                <div class="space-y-2">
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q2" value="a" class="mr-2"> a) Que puede ser instalada en muchos dispositivos al mismo tiempo.
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q2" value="b" class="mr-2"> b) Que puede traducir textos a más de 100 idiomas diferentes.
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q2" value="c" class="mr-2"> c) Procesar texto, imagen y video simultáneamente.
+                    </label>
+                </div>
             </div>
 
+            <!-- Pregunta 3 -->
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                 <p class="font-bold text-slate-700 mb-3">3. ¿Qué es el Contexto en un prompt?</p>
-                <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
-                    <input type="radio" name="q3" value="b" class="mr-2"> Información de fondo para limitar la respuesta.
-                </label>
+                <div class="space-y-2">
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q3" value="a" class="mr-2"> a) Indicarle a la IA en qué formato debe entregar la respuesta.
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q3" value="b" class="mr-2"> b) Información de fondo para limitar y guiar la respuesta.
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q3" value="c" class="mr-2"> c) Decirle a la IA qué tan rápido debe contestar.
+                    </label>
+                </div>
             </div>
 
+            <!-- Pregunta 4 -->
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                 <p class="font-bold text-slate-700 mb-3">4. ¿Para qué sirven las Extensiones?</p>
-                <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
-                    <input type="radio" name="q4" value="b" class="mr-2"> Conectar la IA con datos de Google Workspace.
-                </label>
+                <div class="space-y-2">
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q4" value="a" class="mr-2"> a) Para aumentar la velocidad de la conexión a internet.
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q4" value="b" class="mr-2"> b) Conectar la IA con datos de Google Workspace (Drive, Gmail).
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q4" value="c" class="mr-2"> c) Para cambiar el color de la interfaz de usuario.
+                    </label>
+                </div>
             </div>
 
+            <!-- Pregunta 5 -->
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                 <p class="font-bold text-slate-700 mb-3">5. ¿Qué es una alucinación?</p>
-                <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
-                    <input type="radio" name="q5" value="b" class="mr-2"> Información falsa que suena coherente.
-                </label>
+                <div class="space-y-2">
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q5" value="a" class="mr-2"> a) Cuando el sistema se apaga inesperadamente.
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q5" value="b" class="mr-2"> b) Información falsa que suena coherente y verídica.
+                    </label>
+                    <label class="block p-3 bg-white border rounded-lg hover:border-indigo-400 cursor-pointer transition-all">
+                        <input type="radio" name="q5" value="c" class="mr-2"> c) Un error en la pantalla que distorsiona las imágenes.
+                    </label>
+                </div>
             </div>
 
             <button type="button" onclick="check()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-xl font-bold shadow-lg transform active:scale-95 transition-all">
@@ -74,9 +117,17 @@
             const ans = {q1:'b',q2:'c',q3:'b',q4:'b',q5:'b'};
             let score = 0;
             let total = 5;
+            let answered = 0;
             for(let q in ans){
                 const sel = document.querySelector(`input[name="${q}"]:checked`);
-                if(sel && sel.value === ans[q]) score++;
+                if(sel) {
+                    answered++;
+                    if(sel.value === ans[q]) score++;
+                }
+            }
+            if(answered < 5) {
+                alert("Por favor, responde todas las preguntas antes de finalizar.");
+                return;
             }
             const res = document.getElementById('res');
             res.classList.remove('hidden');
