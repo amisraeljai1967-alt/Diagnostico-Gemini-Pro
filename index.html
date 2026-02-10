@@ -4,61 +4,189 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación Diagnóstica - Gemini Pro</title>
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .option-card:hover { transform: translateY(-2px); transition: all 0.2s; }
+        .selected { border-color: #4F46E5; background-color: #EEF2FF; }
+    </style>
 </head>
-<body class="bg-slate-50 p-6">
-    <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md border border-slate-200">
-        <h1 class="text-2xl font-bold text-center text-indigo-600 mb-6">Evaluación Diagnóstica: Gemini Pro</h1>
-        <form id="quiz-form" class="space-y-6">
-            <div>
-                <p class="font-semibold text-slate-700">1. ¿Qué es un LLM como Gemini Pro?</p>
-                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
-                    <input type="radio" name="q1" value="b" class="mr-2"> Un motor de razonamiento estadístico.
-                </label>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
+
+    <div class="max-w-3xl mx-auto py-12 px-6">
+        <!-- Encabezado de Calidad -->
+        <header class="mb-10 text-center">
+            <div class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-indigo-600 uppercase bg-indigo-100 rounded-full">
+                Documento Auditado - Estándares EC0301 / EC0217.01
             </div>
-            <div>
-                <p class="font-semibold text-slate-700">2. ¿Qué es la capacidad multimodal?</p>
-                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
-                    <input type="radio" name="q2" value="c" class="mr-2"> Procesar texto, imagen y video simultáneamente.
-                </label>
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">Evaluación Diagnóstica</h1>
+            <p class="text-slate-600 font-medium">Curso: Gemini Pro: Multiplica tu Productividad</p>
+            <div class="mt-4 flex justify-center space-x-4 text-sm text-slate-500">
+                <span><i class="fas fa-check-circle text-green-500 mr-1"></i> Formato Digital</span>
+                <span><i class="fas fa-clock text-indigo-500 mr-1"></i> Tiempo estimado: 3 min</span>
             </div>
-            <div>
-                <p class="font-semibold text-slate-700">3. ¿Qué es el Contexto en un prompt?</p>
-                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
-                    <input type="radio" name="q3" value="b" class="mr-2"> Información de fondo para limitar la respuesta.
-                </label>
+        </header>
+
+        <!-- Contenedor del Cuestionario -->
+        <div id="quiz-container" class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 p-8 border border-slate-100">
+            <form id="quiz-form" class="space-y-8">
+                
+                <!-- Pregunta 1 -->
+                <div class="question-block">
+                    <p class="text-lg font-semibold mb-4">1. ¿Qué es un LLM (Large Language Model) como Gemini Pro?</p>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q1" value="a" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Un buscador avanzado de internet que solo entrega enlaces.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q1" value="b" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Un motor de razonamiento estadístico entrenado para procesar y generar lenguaje.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q1" value="c" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Una base de datos estática que almacena archivos de Excel.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="question-block">
+                    <p class="text-lg font-semibold mb-4">2. ¿Qué significa que una IA tenga "capacidad multimodal"?</p>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q2" value="a" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Que puede ser instalada en muchos dispositivos al mismo tiempo.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q2" value="b" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Que puede traducir textos a más de 100 idiomas diferentes.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q2" value="c" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Que puede procesar y generar diversos tipos de datos (texto, imagen, video, etc).</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="question-block">
+                    <p class="text-lg font-semibold mb-4">3. En la ingeniería de prompts, ¿cuál es la función del "Contexto"?</p>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q3" value="a" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Indicarle a la IA en qué formato debe entregar la respuesta.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q3" value="b" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Proporcionar información de fondo o el escenario para limitar el rango de respuesta.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q3" value="c" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Decirle a la IA qué tan rápido debe contestar.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="question-block">
+                    <p class="text-lg font-semibold mb-4">4. ¿Para qué sirven principalmente las "Extensiones" en Gemini Pro?</p>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q4" value="a" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Para aumentar la velocidad de la conexión a internet.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q4" value="b" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Para conectar la IA con tus datos en Google Workspace (Drive, Gmail, Docs).</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q4" value="c" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Para cambiar el color de la interfaz de usuario.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 5 -->
+                <div class="question-block">
+                    <p class="text-lg font-semibold mb-4">5. ¿Qué es una "alucinación" en el contexto de la IA Generativa?</p>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q5" value="a" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Cuando el sistema se apaga inesperadamente por falta de memoria.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q5" value="b" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Cuando el modelo genera información coherente pero falsa o sin sustento real.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
+                            <input type="radio" name="q5" value="c" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 mr-3">
+                            <span>Un error en la pantalla que distorsiona las imágenes.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pt-6 text-center">
+                    <button type="button" onclick="calculateScore()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-10 rounded-full shadow-lg shadow-indigo-200 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                        Finalizar Evaluación
+                    </button>
+                </div>
+            </form>
+
+            <!-- Resultado -->
+            <div id="result-box" class="hidden mt-8 p-6 bg-slate-50 rounded-xl border-2 border-indigo-100 text-center animate-pulse">
+                <p class="text-xl font-bold text-indigo-900 mb-2" id="score-text"></p>
+                <p class="text-slate-600" id="feedback-text"></p>
+                <p class="mt-4 text-sm font-semibold text-slate-500 italic">"Referencia Técnica: Diseño Auditado bajo Estándares CONOCER"</p>
             </div>
-            <div>
-                <p class="font-semibold text-slate-700">4. ¿Para qué sirven las Extensiones?</p>
-                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
-                    <input type="radio" name="q4" value="b" class="mr-2"> Conectar la IA con datos de Google Workspace.
-                </label>
-            </div>
-            <div>
-                <p class="font-semibold text-slate-700">5. ¿Qué es una alucinación?</p>
-                <label class="block p-2 border rounded mt-1 hover:bg-slate-50 cursor-pointer">
-                    <input type="radio" name="q5" value="b" class="mr-2"> Información falsa que suena coherente.
-                </label>
-            </div>
-            <button type="button" onclick="check()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-bold transition-colors">
-                Finalizar Evaluación
-            </button>
-        </form>
-        <div id="res" class="mt-6 hidden p-4 bg-indigo-50 border border-indigo-100 rounded-lg text-center font-bold text-indigo-900"></div>
+        </div>
+
+        <footer class="mt-12 text-center text-slate-400 text-xs">
+            &copy; 2024 Nexo IA Auditoría de Calidad | Facilitadora Lourdes Garza
+        </footer>
     </div>
+
     <script>
-        function check(){
-            const ans = {q1:'b',q2:'c',q3:'b',q4:'b',q5:'b'};
+        function calculateScore() {
+            const answers = { q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'b' };
+            const form = document.getElementById('quiz-form');
             let score = 0;
-            let total = 5;
-            for(let q in ans){
-                const sel = document.querySelector(`input[name="${q}"]:checked`);
-                if(sel && sel.value === ans[q]) score++;
+            let answeredCount = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const selected = form.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) {
+                    answeredCount++;
+                    if (selected.value === answers[`q${i}`]) {
+                        score++;
+                    }
+                }
             }
-            const res = document.getElementById('res');
-            res.classList.remove('hidden');
-            res.textContent = "Tu Resultado: " + score + " de " + total + " respuestas correctas.";
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+            if (answeredCount < 5) {
+                alert('Por favor, responde todas las preguntas antes de finalizar.');
+                return;
+            }
+
+            const resultBox = document.getElementById('result-box');
+            const scoreText = document.getElementById('score-text');
+            const feedbackText = document.getElementById('feedback-text');
+
+            resultBox.classList.remove('hidden');
+            scoreText.textContent = `Puntaje: ${score} de 5 correctas`;
+            
+            if (score === 5) {
+                feedbackText.textContent = "¡Excelente! Tienes una base sólida para iniciar el curso avanzado.";
+            } else if (score >= 3) {
+                feedbackText.textContent = "Buen nivel inicial. Reforzaremos los conceptos clave durante la sesión.";
+            } else {
+                feedbackText.textContent = "Es un buen punto de partida. Prestaremos especial atención a los fundamentos hoy.";
+            }
+
+            // Deshabilitar el formulario para evitar cambios
+            const inputs = form.querySelectorAll('input');
+            inputs.forEach(input => input.disabled = true);
+            form.querySelector('button').classList.add('hidden');
         }
     </script>
 </body>
