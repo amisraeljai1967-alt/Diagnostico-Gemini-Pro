@@ -4,187 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación Diagnóstica - Gemini Pro</title>
-    <!-- Script de diseño limpio -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .option-card:hover { transform: translateY(-2px); transition: all 0.2s; border-color: #6366f1; }
-        .selected { border-color: #4F46E5; background-color: #EEF2FF; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .animate-result { animation: fadeIn 0.6s ease-out forwards; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
 
     <div class="max-w-3xl mx-auto py-12 px-6">
+        <!-- Encabezado -->
         <header class="mb-10 text-center">
             <div class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-indigo-600 uppercase bg-indigo-100 rounded-full">
-                Documento Auditado - Estándares EC0301 / EC0217.01
+                Fase de Encuadre - Estándar EC0301 / EC0217.01
             </div>
             <h1 class="text-3xl font-bold text-slate-900 mb-2">Evaluación Diagnóstica</h1>
-            <p class="text-slate-600 font-medium">Curso: Gemini Pro: Multiplica tu Productividad</p>
-            <div class="mt-4 flex justify-center space-x-4 text-sm text-slate-500">
-                <span><i class="fas fa-check-circle text-green-500 mr-1"></i> Formato Digital</span>
-                <span><i class="fas fa-clock text-indigo-500 mr-1"></i> Tiempo estimado: 3 min</span>
-            </div>
+            <p class="text-slate-600 font-medium italic">Gemini Pro: Multiplica tu Productividad</p>
         </header>
 
-        <div id="quiz-container" class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 p-8 border border-slate-100">
-            <form id="quiz-form" class="space-y-8">
-                
+        <!-- Contenedor Principal -->
+        <div id="main-container" class="bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
+            
+            <!-- PASO 1: Registro del Alumno -->
+            <div id="step-name" class="space-y-6 text-center">
+                <div class="py-4">
+                    <i class="fas fa-id-card text-6xl text-indigo-100 mb-4"></i>
+                    <h2 class="text-xl font-bold text-slate-800">Identificación</h2>
+                    <p class="text-slate-500">Por favor, ingresa tu nombre completo para iniciar:</p>
+                </div>
+                <input type="text" id="student-name" placeholder="Tu nombre completo" 
+                    class="w-full p-4 border-2 border-slate-100 rounded-xl focus:border-indigo-500 outline-none text-lg text-center transition-all">
+                <button onclick="startQuiz()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all transform active:scale-95">
+                    Comenzar Evaluación
+                </button>
+            </div>
+
+            <!-- PASO 2: Cuestionario -->
+            <form id="quiz-form" class="hidden space-y-8">
                 <!-- Pregunta 1 -->
                 <div class="question-block">
-                    <p class="text-lg font-semibold mb-4">1. ¿Qué es un LLM (Large Language Model) como Gemini Pro?</p>
+                    <p class="text-lg font-semibold mb-4 text-slate-800">1. ¿Qué es un LLM (Large Language Model) como Gemini Pro?</p>
                     <div class="space-y-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q1" value="a" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Un buscador avanzado de internet que solo entrega enlaces.</span>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q1" value="a" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>a) Un buscador avanzado de internet que solo entrega enlaces.</span>
                         </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q1" value="b" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Un motor de razonamiento estadístico entrenado para procesar y generar lenguaje.</span>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q1" value="b" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>b) Un motor de razonamiento estadístico para procesar lenguaje.</span>
                         </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q1" value="c" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Una base de datos estática que almacena archivos de Excel.</span>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q1" value="c" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>c) Una base de datos estática que almacena archivos de Excel.</span>
                         </label>
                     </div>
                 </div>
 
                 <!-- Pregunta 2 -->
                 <div class="question-block">
-                    <p class="text-lg font-semibold mb-4">2. ¿Qué significa que una IA tenga "capacidad multimodal"?</p>
+                    <p class="text-lg font-semibold mb-4 text-slate-800">2. ¿Qué es la capacidad multimodal?</p>
                     <div class="space-y-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q2" value="a" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Que puede ser instalada en muchos dispositivos al mismo tiempo.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q2" value="b" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Que puede traducir textos a más de 100 idiomas diferentes.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q2" value="c" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Que puede procesar y generar diversos tipos de datos (texto, imagen, video, etc).</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Pregunta 3 -->
-                <div class="question-block">
-                    <p class="text-lg font-semibold mb-4">3. En la ingeniería de prompts, ¿cuál es la función del "Contexto"?</p>
-                    <div class="space-y-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q3" value="a" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Indicarle a la IA en qué formato debe entregar la respuesta.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q3" value="b" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Proporcionar información de fondo o el escenario para limitar el rango de respuesta.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q3" value="c" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Decirle a la IA qué tan rápido debe contestar.</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Pregunta 4 -->
-                <div class="question-block">
-                    <p class="text-lg font-semibold mb-4">4. ¿Para qué sirven principalmente las "Extensiones" en Gemini Pro?</p>
-                    <div class="space-y-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q4" value="a" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Para aumentar la velocidad de la conexión a internet.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q4" value="b" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Para conectar la IA con tus datos en Google Workspace (Drive, Gmail, Docs).</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q4" value="c" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Para cambiar el color de la interfaz de usuario.</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Pregunta 5 -->
-                <div class="question-block">
-                    <p class="text-lg font-semibold mb-4">5. ¿Qué es una "alucinación" en el contexto de la IA Generativa?</p>
-                    <div class="space-y-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q5" value="a" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Cuando el sistema se apaga inesperadamente por falta de memoria.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q5" value="b" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Cuando el modelo genera información coherente pero falsa o sin sustento real.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card hover:border-indigo-200">
-                            <input type="radio" name="q5" value="c" class="w-4 h-4 text-indigo-600 mr-3">
-                            <span>Un error en la pantalla que distorsiona las imágenes.</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="pt-6 text-center" id="action-area">
-                    <button type="button" onclick="calculateScore()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-10 rounded-full shadow-lg transform active:scale-95 transition-all">
-                        Finalizar Evaluación
-                    </button>
-                </div>
-            </form>
-
-            <div id="result-box" class="hidden mt-8 p-6 bg-slate-50 rounded-xl border-2 border-indigo-100 text-center animate-fade-in">
-                <p class="text-2xl font-bold text-indigo-900 mb-2" id="score-text"></p>
-                <p class="text-slate-700 text-lg mb-4" id="feedback-text"></p>
-                <div class="bg-indigo-600 text-white p-4 rounded-lg inline-block font-bold">
-                    Siguiente paso: Iniciamos con el Módulo 1
-                </div>
-                <p class="mt-6 text-xs font-semibold text-slate-400 uppercase tracking-widest">Auditoría Nexo IA | Facilitadora Lourdes Garza</p>
-            </div>
-        </div>
-
-        <footer class="mt-12 text-center text-slate-400 text-xs">
-            &copy; 2024 Nexo IA Auditoría de Calidad | Facilitadora Lourdes Garza
-        </footer>
-    </div>
-
-    <script>
-        function calculateScore() {
-            const answers = { q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'b' };
-            const form = document.getElementById('quiz-form');
-            let score = 0;
-            let answeredCount = 0;
-
-            for (let i = 1; i <= 5; i++) {
-                const selected = form.querySelector(`input[name="q${i}"]:checked`);
-                if (selected) {
-                    answeredCount++;
-                    if (selected.value === answers[`q${i}`]) score++;
-                }
-            }
-
-            if (answeredCount < 5) {
-                alert('Por favor, responde todas las preguntas antes de finalizar.');
-                return;
-            }
-
-            // Mostrar resultados
-            document.getElementById('result-box').classList.remove('hidden');
-            document.getElementById('score-text').textContent = `Resultado: ${score} de 5 correctas`;
-            
-            const feedbackText = document.getElementById('feedback-text');
-            if (score === 5) feedbackText.textContent = "¡Dominio Total! Estás listo para los flujos más complejos.";
-            else if (score >= 3) feedbackText.textContent = "Buen conocimiento base. Hoy puliremos esos detalles.";
-            else feedbackText.textContent = "Excelente punto de partida. Hoy cerraremos todas tus brechas digitales.";
-
-            // Bloquear inputs y ocultar botón de finalizar
-            const inputs = form.querySelectorAll('input');
-            inputs.forEach(input => input.disabled = true);
-            document.getElementById('action-area').classList.add('hidden');
-            
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        }
-    </script>
-</body>
-</html>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q2" value="a" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>a) Que puede ser instalada en muchos dispositivos al mismo tiempo.</span>
+                        </
