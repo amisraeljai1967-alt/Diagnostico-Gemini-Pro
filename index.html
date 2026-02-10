@@ -30,22 +30,24 @@
         <!-- Contenedor Principal -->
         <div id="main-container" class="bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
             
-            <!-- PASO 1: Registro del Alumno -->
-            <div id="step-name" class="space-y-6 text-center">
-                <div class="py-4">
-                    <i class="fas fa-id-card text-6xl text-indigo-100 mb-4"></i>
-                    <h2 class="text-xl font-bold text-slate-800">Identificación</h2>
-                    <p class="text-slate-500">Por favor, ingresa tu nombre completo para iniciar:</p>
+            <!-- PASO 1: Registro del Alumno (DEBE SER VISIBLE POR DEFAULT) -->
+            <div id="step-name" class="space-y-6 text-center py-8">
+                <div>
+                    <i class="fas fa-id-card text-7xl text-indigo-100 mb-6"></i>
+                    <h2 class="text-2xl font-bold text-slate-800">¡Bienvenido al Curso!</h2>
+                    <p class="text-slate-500 mt-2">Para iniciar tu evaluación diagnóstica, por favor escribe tu nombre:</p>
                 </div>
-                <input type="text" id="student-name" placeholder="Tu nombre completo" 
-                    class="w-full p-4 border-2 border-slate-100 rounded-xl focus:border-indigo-500 outline-none text-lg text-center transition-all">
-                <button onclick="startQuiz()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all transform active:scale-95">
-                    Comenzar Evaluación
-                </button>
+                <div class="max-w-sm mx-auto">
+                    <input type="text" id="student-name" placeholder="Tu nombre completo" 
+                        class="w-full p-4 border-2 border-slate-200 rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50 outline-none text-xl text-center transition-all mb-4">
+                    <button onclick="startQuiz()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all transform active:scale-95 text-lg">
+                        Comenzar Evaluación <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- PASO 2: Cuestionario -->
-            <form id="quiz-form" class="hidden space-y-8">
+            <form id="quiz-form" class="hidden space-y-8 animate-result">
                 <!-- Pregunta 1 -->
                 <div class="question-block">
                     <p class="text-lg font-semibold mb-4 text-slate-800">1. ¿Qué es un LLM (Large Language Model) como Gemini Pro?</p>
@@ -72,4 +74,225 @@
                         <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
                             <input type="radio" name="q2" value="a" class="mr-3 w-4 h-4 text-indigo-600">
                             <span>a) Que puede ser instalada en muchos dispositivos al mismo tiempo.</span>
-                        </
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q2" value="b" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>b) Que puede traducir textos a más de 100 idiomas diferentes.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q2" value="c" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>c) Procesar texto, imagen, video y código simultáneamente.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="question-block">
+                    <p class="text-lg font-semibold mb-4 text-slate-800">3. ¿Qué es el "Contexto" en un prompt?</p>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q3" value="a" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>a) Indicarle a la IA en qué formato debe entregar la respuesta.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q3" value="b" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>b) Información de fondo para limitar y guiar la respuesta.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q3" value="c" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>c) Decirle a la IA qué tan rápido debe contestar.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="question-block">
+                    <p class="text-lg font-semibold mb-4 text-slate-800">4. ¿Para qué sirven las "Extensiones"?</p>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q4" value="a" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>a) Para aumentar la velocidad de la conexión a internet.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q4" value="b" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>b) Conectar la IA con tus datos en Google Workspace (Drive, Gmail).</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q4" value="c" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>c) Para cambiar el color de la interfaz de usuario.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 5 -->
+                <div class="question-block">
+                    <p class="text-lg font-semibold mb-4 text-slate-800">5. ¿Qué es una alucinación?</p>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q5" value="a" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>a) Cuando el sistema se apaga inesperadamente por falta de memoria.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q5" value="b" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>b) Información falsa que suena coherente y verídica.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card">
+                            <input type="radio" name="q5" value="c" class="mr-3 w-4 h-4 text-indigo-600">
+                            <span>c) Un error en la pantalla que distorsiona las imágenes.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="button" onclick="calculateAndSave()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all text-lg">
+                    Finalizar Evaluación <i class="fas fa-check-circle ml-2"></i>
+                </button>
+            </form>
+
+            <!-- PASO 3: Confirmación -->
+            <div id="result-box" class="hidden mt-8 p-10 bg-indigo-50 border-2 border-indigo-200 rounded-2xl text-center animate-result">
+                <p class="text-4xl font-black text-indigo-900 mb-2" id="score-text"></p>
+                <p class="text-slate-700 text-lg mb-6">Tus resultados han sido registrados en la nube.</p>
+                <div class="bg-white p-6 rounded-2xl border border-indigo-100 inline-block shadow-sm">
+                    <p class="text-sm font-bold text-indigo-600 mb-2 tracking-widest uppercase">Próximo Paso:</p>
+                    <p class="text-slate-600 text-lg italic">"Por favor, espera a que Lourdes Garza inicie formalmente el <b>Módulo 1</b>."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL DE CONTROL PARA LOURDES -->
+        <div class="mt-20 border-t border-slate-200 pt-10">
+            <div class="flex justify-center mb-4">
+                <button onclick="toggleAdmin()" class="bg-slate-200 hover:bg-indigo-600 hover:text-white text-slate-500 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
+                    <i class="fas fa-user-shield mr-2"></i> Panel de Instructora (Resultados del Grupo)
+                </button>
+            </div>
+            
+            <div id="admin-panel" class="hidden mt-6 bg-slate-900 text-white p-8 rounded-3xl shadow-2xl animate-result border border-slate-800">
+                <div class="flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
+                    <div>
+                        <h3 class="font-bold text-indigo-400 text-xl italic"><i class="fas fa-database mr-2 text-sm"></i>Diagnóstico en Tiempo Real</h3>
+                        <p class="text-slate-500 text-xs mt-1 uppercase tracking-tighter">Monitoreo de Competencias (EC0301)</p>
+                    </div>
+                    <span id="counter" class="bg-indigo-600 px-4 py-1 rounded-full text-xs font-bold">0 Alumnos</span>
+                </div>
+                <div id="results-list" class="space-y-4 text-sm max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+                    <div class="text-center py-10">
+                        <i class="fas fa-spinner fa-spin text-indigo-500 text-3xl mb-4"></i>
+                        <p class="text-slate-500 italic">Conectando con la base de datos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-slate-400 text-xs pb-10">
+            &copy; 2024 Auditoría Nexo IA | Certificación Digital | Lourdes Garza
+        </footer>
+    </div>
+
+    <!-- FIREBASE INTEGRATION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'evaluacion-lourdes-diagnostico-v2';
+
+        let userAuthenticated = false;
+
+        const initSession = async () => {
+            try {
+                await signInAnonymously(auth);
+                userAuthenticated = true;
+                console.log("Conexión segura establecida.");
+            } catch (err) {
+                console.error("Error Auth:", err);
+            }
+        };
+        initSession();
+
+        window.startQuiz = () => {
+            const name = document.getElementById('student-name').value.trim();
+            if (name.length < 3) {
+                alert("Por favor, ingresa tu nombre completo para el registro de asistencia.");
+                return;
+            }
+            window.activeParticipant = name;
+            document.getElementById('step-name').classList.add('hidden');
+            document.getElementById('quiz-form').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.calculateAndSave = async () => {
+            if (!userAuthenticated) return alert("Problema de red. Refresca la página.");
+
+            const answers = { q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'b' };
+            const form = document.getElementById('quiz-form');
+            let score = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const sel = form.querySelector(`input[name="q${i}"]:checked`);
+                if (sel && sel.value === answers[`q${i}`]) score++;
+            }
+
+            try {
+                const uniqueId = Date.now().toString() + "_" + Math.random().toString(36).substr(2, 5);
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'respuestas_grupo', uniqueId);
+                
+                await setDoc(docRef, {
+                    alumno: window.activeParticipant,
+                    puntos: score,
+                    fecha: new Date().toISOString()
+                });
+
+                form.classList.add('hidden');
+                document.getElementById('result-box').classList.remove('hidden');
+                document.getElementById('score-text').textContent = score + " / 5 Aciertos";
+            } catch (e) {
+                alert("Error técnico al reportar. Avisa a Lourdes.");
+            }
+        };
+
+        window.toggleAdmin = () => {
+            const panel = document.getElementById('admin-panel');
+            panel.classList.toggle('hidden');
+            if (!panel.classList.contains('hidden')) {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'respuestas_grupo');
+                onSnapshot(colRef, (snapshot) => {
+                    const list = document.getElementById('results-list');
+                    const counter = document.getElementById('counter');
+                    list.innerHTML = "";
+                    
+                    const items = [];
+                    snapshot.forEach(doc => items.push(doc.data()));
+                    items.sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
+
+                    counter.textContent = `${items.length} Alumnos Registrados`;
+
+                    if (items.length === 0) {
+                        list.innerHTML = '<div class="text-center py-10 text-slate-500 italic"><i class="fas fa-user-clock text-4xl mb-4 opacity-20"></i><br>Aún no hay alumnos que hayan finalizado el diagnóstico.</div>';
+                        return;
+                    }
+
+                    items.forEach(data => {
+                        const row = document.createElement('div');
+                        const colorClass = data.puntos === 5 ? "border-green-500 bg-green-500/10" : (data.puntos >= 3 ? "border-indigo-500 bg-indigo-500/10" : "border-amber-500 bg-amber-500/10");
+                        row.className = `flex justify-between items-center p-4 rounded-2xl border-l-8 ${colorClass} transition-all hover:scale-[1.01]`;
+                        row.innerHTML = `
+                            <div>
+                                <span class="font-bold text-lg text-white">${data.alumno}</span>
+                                <div class="text-slate-500 text-[10px] mt-1 uppercase tracking-widest font-bold">${new Date(data.fecha).toLocaleTimeString()}</div>
+                            </div>
+                            <span class="font-black text-indigo-400 text-2xl">${data.puntos}/5</span>
+                        `;
+                        list.appendChild(row);
+                    });
+                });
+            }
+        };
+    </script>
+</body>
+</html>
