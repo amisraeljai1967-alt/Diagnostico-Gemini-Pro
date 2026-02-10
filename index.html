@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación Diagnóstica - Gemini Pro</title>
+    <!-- Cargamos Tailwind y FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -34,23 +35,23 @@
             <div id="step-name" style="display: block;" class="space-y-8 text-center py-6">
                 <div class="flex justify-center">
                     <div class="w-24 h-24 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center shadow-inner">
-                        <i class="fas fa-user-check text-4xl"></i>
+                        <i class="fas fa-user-edit text-4xl"></i>
                     </div>
                 </div>
                 <div>
                     <h2 class="text-2xl font-bold text-slate-800">Identificación de Participante</h2>
-                    <p class="text-slate-500 mt-2">Ingresa tu nombre para habilitar el cuestionario:</p>
+                    <p class="text-slate-500 mt-2">Por favor, ingresa tu nombre completo para habilitar el cuestionario:</p>
                 </div>
                 <div class="max-w-md mx-auto">
-                    <input type="text" id="student-name" placeholder="Tu nombre completo" 
+                    <input type="text" id="student-name" placeholder="Tu nombre y apellidos" 
                         class="w-full p-5 border-2 border-slate-200 rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50 outline-none text-xl text-center transition-all mb-6">
                     <button onclick="startQuiz()" class="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-indigo-700 transition-all transform active:scale-95 text-xl flex items-center justify-center">
-                        Iniciar Diagnóstico <i class="fas fa-chevron-right ml-3"></i>
+                        Siguiente: Comenzar <i class="fas fa-chevron-right ml-3"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- PASO 2: Cuestionario -->
+            <!-- PASO 2: Cuestionario (5 Preguntas) -->
             <form id="quiz-form" style="display: none;" class="space-y-10 animate-result">
                 
                 <!-- Pregunta 1 -->
@@ -108,7 +109,7 @@
                         </label>
                         <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card bg-slate-50/50">
                             <input type="radio" name="q4" value="a" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">Aumentar la velocidad del internet.</span>
+                            <span class="text-slate-700 font-medium">Mejorar la velocidad de descarga del internet.</span>
                         </label>
                     </div>
                 </div>
@@ -119,64 +120,66 @@
                     <div class="grid gap-3">
                         <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card bg-slate-50/50">
                             <input type="radio" name="q5" value="b" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">Información falsa que suena coherente y verídica.</span>
+                            <span class="text-slate-700 font-medium">Información falsa que la IA presenta como verdadera y coherente.</span>
                         </label>
                         <label class="flex items-center p-4 border-2 border-slate-100 rounded-xl cursor-pointer option-card bg-slate-50/50">
                             <input type="radio" name="q5" value="a" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">Un error que cierra el navegador solo.</span>
+                            <span class="text-slate-700 font-medium">Cuando el programa se cierra inesperadamente.</span>
                         </label>
                     </div>
                 </div>
 
                 <button type="button" id="btn-submit" onclick="calculateAndSave()" class="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-indigo-700 transition-all text-xl flex items-center justify-center">
-                    Finalizar Evaluación <i class="fas fa-check-double ml-3"></i>
+                    Finalizar y Ver Resultado <i class="fas fa-paper-plane ml-3"></i>
                 </button>
             </form>
 
             <!-- PASO 3: Confirmación Final -->
             <div id="result-box" style="display: none;" class="mt-8 p-10 bg-indigo-50 border-2 border-indigo-200 rounded-3xl text-center animate-result">
                 <div class="w-20 h-20 bg-white text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                    <i class="fas fa-award text-4xl"></i>
+                    <i class="fas fa-check-circle text-4xl"></i>
                 </div>
                 <p class="text-4xl font-black text-indigo-900 mb-2" id="score-text"></p>
-                <p class="text-slate-700 text-lg mb-8">¡Excelente! Tus datos han sido guardados.</p>
+                <p class="text-slate-700 text-lg mb-8 italic">Tus datos han sido registrados exitosamente en el sistema de auditoría.</p>
                 <div class="bg-indigo-600 text-white px-8 py-4 rounded-2xl inline-block font-bold shadow-lg">
-                    Espera instrucciones de Lourdes Garza
+                    Favor de esperar indicaciones de la instructora
                 </div>
             </div>
         </div>
 
-        <!-- PANEL DE CONTROL (PARA TI) -->
+        <!-- PANEL DE CONTROL (EXCLUSIVO) -->
         <div class="mt-24 border-t border-slate-200 pt-10 text-center">
             <button onclick="toggleAdmin()" class="bg-slate-800 text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg hover:bg-indigo-600 transition-all">
-                <i class="fas fa-user-shield mr-2"></i> Panel de Instructora (Resultados)
+                <i class="fas fa-user-shield mr-2"></i> Panel de Instructora (Lourdes Garza)
             </button>
             
+            <!-- Acceso con Contraseña -->
             <div id="admin-auth" style="display: none;" class="mt-6 bg-white p-8 rounded-2xl shadow-xl border border-indigo-100 max-w-xs mx-auto animate-result">
                 <h3 class="font-bold text-slate-800 mb-4 text-xs tracking-widest uppercase text-center">Código de Acceso</h3>
                 <div class="flex gap-2">
                     <input type="password" id="admin-pass" placeholder="Código" class="w-full p-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-center font-bold">
                     <button onclick="checkPassword()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold">Entrar</button>
                 </div>
-                <p class="text-[10px] text-slate-400 mt-2 font-bold text-center">Código: 1234</p>
+                <p class="text-[10px] text-slate-400 mt-2 font-bold text-center italic">Acceso restringido para control de grupo</p>
             </div>
 
+            <!-- Lista de Resultados -->
             <div id="admin-panel" style="display: none;" class="mt-8 bg-slate-900 text-white p-8 rounded-3xl shadow-2xl text-left border border-slate-800 animate-result">
-                <div class="flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
+                <div class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
                     <div>
-                        <h3 class="font-bold text-indigo-400 text-xl tracking-tight italic">Monitoreo del Grupo</h3>
-                        <p class="text-slate-500 text-[10px] mt-1 uppercase tracking-widest">Alineación EC0301 / EC0217.01</p>
+                        <h3 class="font-bold text-indigo-400 text-xl tracking-tight italic">Monitoreo de Respuestas</h3>
+                        <p class="text-slate-500 text-[10px] mt-1 uppercase tracking-widest">Sincronización en Tiempo Real</p>
                     </div>
                     <span id="counter" class="bg-indigo-600 px-4 py-1 rounded-full text-xs font-bold whitespace-nowrap">0 Participantes</span>
                 </div>
                 <div id="results-list" class="space-y-3 text-sm max-h-96 overflow-y-auto pr-2 custom-scrollbar">
-                    <p class="text-slate-500 italic text-center py-4 text-xs">Esperando resultados del grupo...</p>
+                    <p class="text-slate-500 italic text-center py-4 text-xs">Esperando registros...</p>
                 </div>
             </div>
         </div>
 
         <footer class="mt-12 text-center text-slate-400 text-xs pb-10">
-            &copy; 2024 Auditoría Nexo IA | Certificación EC0301 | Lourdes Garza
+            &copy; 2024 Nexo IA Auditoría de Calidad | Facilitadora Lourdes Garza
         </footer>
     </div>
 
@@ -186,48 +189,48 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // Manejo de Config
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'eval-lourdes-diagnostico-pro';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'eval-diagnostica-lourdes-vfinal';
 
-        let user = null;
+        let currentUser = null;
         let adminUnlocked = false;
 
-        // Iniciar sesión
+        // Iniciar sesión anónima
         (async () => {
-            try {
-                await signInAnonymously(auth);
-            } catch (err) { console.error("Error Auth"); }
+            try { await signInAnonymously(auth); } catch (err) { console.error("Firebase Error"); }
         })();
 
-        onAuthStateChanged(auth, (u) => { user = u; });
+        onAuthStateChanged(auth, (u) => { currentUser = u; });
 
-        // Lógica de navegación del diagnóstico
+        // NAVEGACION: CAMBIO DE PANTALLA FORZADO
         window.startQuiz = () => {
             const nameInput = document.getElementById('student-name');
             const name = nameInput.value.trim();
             
             if (name.length < 3) {
-                alert("Por favor, ingresa tu nombre completo para el registro oficial.");
+                alert("Por favor, ingresa tu nombre completo.");
                 return;
             }
             
-            window.activeParticipantName = name;
+            window.participantName = name;
             
-            // CAMBIO DE PANTALLA: Forzamos el display por JS para evitar fallos de Tailwind en GitHub
+            // Acción crítica: Ocultar y Mostrar mediante estilo directo
             document.getElementById('step-name').style.display = 'none';
             document.getElementById('quiz-form').style.display = 'block';
             window.scrollTo(0, 0);
         };
 
+        // GUARDADO DE DATOS
         window.calculateAndSave = async () => {
-            if (!user) return alert("Conectando con el servidor... Reintenta en unos segundos.");
+            if (!currentUser) return alert("Conectando... reintenta en un momento.");
             
             const btn = document.getElementById('btn-submit');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Procesando...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Guardando...';
 
             const answers = { q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'b' };
             const form = document.getElementById('quiz-form');
@@ -239,50 +242,48 @@
             }
 
             try {
-                const docId = `res_${Date.now()}_${user.uid.substring(0,4)}`;
+                // Identificador único por envío
+                const docId = `res_${Date.now()}_${currentUser.uid.substring(0,4)}`;
                 const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'evaluaciones', docId);
                 
                 await setDoc(docRef, {
-                    nombre: window.activeParticipantName,
+                    nombre: window.participantName,
                     puntos: score,
                     fecha: new Date().toISOString()
                 });
 
                 document.getElementById('quiz-form').style.display = 'none';
                 document.getElementById('result-box').style.display = 'block';
-                document.getElementById('score-text').textContent = score + " / 5 Aciertos";
+                document.getElementById('score-text').textContent = score + " / 5 Correctas";
             } catch (e) {
-                alert("Error de red. Intenta nuevamente.");
+                alert("Error de red. Por favor intenta finalizar de nuevo.");
                 btn.disabled = false;
-                btn.innerHTML = 'Finalizar Evaluación <i class="fas fa-check-double ml-3"></i>';
+                btn.innerHTML = 'Finalizar Evaluación <i class="fas fa-paper-plane ml-2"></i>';
             }
         };
 
-        // Lógica del Panel de Control
+        // PANEL INSTRUCTORA
         window.toggleAdmin = () => {
-            const authBox = document.getElementById('admin-auth');
-            const panel = document.getElementById('admin-panel');
-            
             if (adminUnlocked) {
-                panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+                const p = document.getElementById('admin-panel');
+                p.style.display = (p.style.display === 'none') ? 'block' : 'none';
             } else {
-                authBox.style.display = (authBox.style.display === 'none') ? 'block' : 'none';
+                const a = document.getElementById('admin-auth');
+                a.style.display = (a.style.display === 'none') ? 'block' : 'none';
             }
         };
 
         window.checkPassword = () => {
             const pass = document.getElementById('admin-pass').value;
-            if (pass === "1234") {
+            if (pass === "1234") { // CONTRASEÑA POR DEFECTO
                 adminUnlocked = true;
                 document.getElementById('admin-auth').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
-                loadResults();
-            } else {
-                alert("Código incorrecto");
-            }
+                syncResults();
+            } else { alert("Código incorrecto"); }
         };
 
-        function loadResults() {
+        function syncResults() {
             const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'evaluaciones');
             onSnapshot(colRef, (snap) => {
                 const list = document.getElementById('results-list');
@@ -291,18 +292,17 @@
                 let items = [];
                 snap.forEach(d => items.push(d.data()));
                 
-                // Ordenar: Más reciente arriba
                 items.sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
                 counter.textContent = `${items.length} Participantes`;
                 
                 if (items.length === 0) {
-                    list.innerHTML = '<p class="text-slate-500 italic text-center py-4 text-xs">Esperando registros...</p>';
+                    list.innerHTML = '<p class="text-slate-500 italic text-center py-4 text-xs">Sin registros aún.</p>';
                     return;
                 }
 
                 items.forEach(d => {
                     const row = document.createElement('div');
-                    row.className = "flex justify-between items-center p-4 bg-slate-800 rounded-2xl border-l-4 border-indigo-500 mb-2 shadow-inner";
+                    row.className = "flex justify-between items-center p-4 bg-slate-800 rounded-2xl border-l-4 border-indigo-500 mb-2";
                     row.innerHTML = `
                         <div>
                             <div class="font-bold text-white text-sm uppercase tracking-tighter">${d.nombre}</div>
