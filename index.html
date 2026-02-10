@@ -10,6 +10,8 @@
     <style>
         .option-card:hover { transform: translateY(-2px); transition: all 0.2s; border-color: #6366f1; }
         .selected { border-color: #4F46E5; background-color: #EEF2FF; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
@@ -125,16 +127,20 @@
                     </div>
                 </div>
 
-                <div class="pt-6 text-center">
+                <div class="pt-6 text-center" id="action-area">
                     <button type="button" onclick="calculateScore()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-10 rounded-full shadow-lg transform active:scale-95 transition-all">
                         Finalizar Evaluación
                     </button>
                 </div>
             </form>
 
-            <div id="result-box" class="hidden mt-8 p-6 bg-slate-50 rounded-xl border-2 border-indigo-100 text-center">
-                <p class="text-xl font-bold text-indigo-900 mb-2" id="score-text"></p>
-                <p class="text-slate-600" id="feedback-text"></p>
+            <div id="result-box" class="hidden mt-8 p-6 bg-slate-50 rounded-xl border-2 border-indigo-100 text-center animate-fade-in">
+                <p class="text-2xl font-bold text-indigo-900 mb-2" id="score-text"></p>
+                <p class="text-slate-700 text-lg mb-4" id="feedback-text"></p>
+                <div class="bg-indigo-600 text-white p-4 rounded-lg inline-block font-bold">
+                    Siguiente paso: Iniciamos con el Módulo 1
+                </div>
+                <p class="mt-6 text-xs font-semibold text-slate-400 uppercase tracking-widest">Auditoría Nexo IA | Facilitadora Lourdes Garza</p>
             </div>
         </div>
 
@@ -159,21 +165,25 @@
             }
 
             if (answeredCount < 5) {
-                alert('Por favor, responde todas las preguntas.');
+                alert('Por favor, responde todas las preguntas antes de finalizar.');
                 return;
             }
 
+            // Mostrar resultados
             document.getElementById('result-box').classList.remove('hidden');
-            document.getElementById('score-text').textContent = `Puntaje: ${score} de 5 correctas`;
-            const feedbackText = document.getElementById('feedback-text');
+            document.getElementById('score-text').textContent = `Resultado: ${score} de 5 correctas`;
             
-            if (score === 5) feedbackText.textContent = "¡Excelente! Tienes una base sólida.";
-            else if (score >= 3) feedbackText.textContent = "Buen nivel. Reforzaremos conceptos hoy.";
-            else feedbackText.textContent = "Buen punto de partida. Hoy aprenderás mucho.";
+            const feedbackText = document.getElementById('feedback-text');
+            if (score === 5) feedbackText.textContent = "¡Dominio Total! Estás listo para los flujos más complejos.";
+            else if (score >= 3) feedbackText.textContent = "Buen conocimiento base. Hoy puliremos esos detalles.";
+            else feedbackText.textContent = "Excelente punto de partida. Hoy cerraremos todas tus brechas digitales.";
 
+            // Bloquear inputs y ocultar botón de finalizar
             const inputs = form.querySelectorAll('input');
             inputs.forEach(input => input.disabled = true);
-            form.querySelector('button').classList.add('hidden');
+            document.getElementById('action-area').classList.add('hidden');
+            
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
     </script>
 </body>
