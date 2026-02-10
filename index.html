@@ -23,9 +23,9 @@
             <h1 class="text-3xl font-bold text-slate-900 mb-2">Evaluación Diagnóstica</h1>
             <p class="text-slate-600 font-medium italic">Gemini Pro: Multiplica tu Productividad</p>
             
-            <!-- Botón de Administrador -->
-            <button onclick="showAdminPrompt()" class="absolute top-0 right-0 text-slate-300 hover:text-indigo-500 transition-colors">
-                <i class="fas fa-lock"></i>
+            <!-- Botón de Administrador (Siempre accesible) -->
+            <button onclick="showAdminPrompt()" class="absolute top-0 right-0 p-2 text-slate-300 hover:text-indigo-600 transition-colors" title="Acceso Instructor">
+                <i class="fas fa-lock text-xl"></i>
             </button>
         </header>
 
@@ -108,8 +108,13 @@
             <div id="result-box" class="hidden mt-8 p-10 bg-indigo-50 border-2 border-indigo-200 rounded-2xl text-center animate-result">
                 <p class="text-4xl font-black text-indigo-900 mb-2" id="score-text"></p>
                 <p class="text-slate-700 text-lg mb-6">Resultados registrados correctamente.</p>
-                <div class="bg-white p-6 rounded-2xl border border-indigo-100 inline-block shadow-sm">
+                <div class="bg-white p-6 rounded-2xl border border-indigo-100 inline-block shadow-sm mb-6">
                     <p class="text-slate-600 text-lg italic">"Por favor, espera a que la instructora inicie el <b>Módulo 1</b>."</p>
+                </div>
+                <div class="block">
+                    <button onclick="showAdminPrompt()" class="text-indigo-600 hover:text-indigo-800 text-sm font-semibold underline">
+                        <i class="fas fa-user-shield mr-1"></i> Acceso Instructor
+                    </button>
                 </div>
             </div>
 
@@ -117,7 +122,7 @@
             <div id="admin-panel" class="hidden space-y-6 animate-result">
                 <div class="flex justify-between items-center border-b pb-4">
                     <h2 class="text-xl font-bold text-slate-800">Resultados del Grupo</h2>
-                    <button onclick="hideAdmin()" class="text-slate-400 hover:text-red-500 text-sm">Cerrar Panel</button>
+                    <button onclick="hideAdmin()" class="text-slate-400 hover:text-red-500 text-sm font-bold uppercase tracking-tighter">Cerrar X</button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -134,7 +139,7 @@
                     </table>
                 </div>
                 <div id="admin-loading" class="text-center text-slate-400 py-4 hidden">
-                    <i class="fas fa-spinner fa-spin mr-2"></i> Cargando datos...
+                    <i class="fas fa-spinner fa-spin mr-2"></i> Cargando datos en tiempo real...
                 </div>
             </div>
         </div>
@@ -142,7 +147,7 @@
 
     <script>
         var activeUserName = "";
-        const ADMIN_PASS = "admin123"; // Password para revisión
+        const ADMIN_PASS = "admin123"; 
 
         function startAppNow() {
             var input = document.getElementById('student-name');
@@ -189,7 +194,7 @@
                 try {
                     await window.firebaseSaveFunction(activeUserName, score);
                 } catch (e) {
-                    console.warn("Error en la nube.");
+                    console.warn("Error de conexión, se guardó localmente.");
                 }
             }
 
@@ -199,13 +204,16 @@
             window.scrollTo(0,0);
         }
 
-        // Funciones de Administración
+        // PANEL ADMINISTRATIVO
         function showAdminPrompt() {
-            const pass = prompt("Introduce el password de administrador:");
+            const pass = prompt("Acceso restringido. Introduce el password:");
             if (pass === ADMIN_PASS) {
+                // Ocultar todo lo demás
                 document.getElementById('step-name').classList.add('hidden');
                 document.getElementById('quiz-form').classList.add('hidden');
                 document.getElementById('result-box').classList.add('hidden');
+                
+                // Mostrar Panel
                 document.getElementById('admin-panel').classList.remove('hidden');
                 loadGroupResults();
             } else if (pass !== null) {
@@ -215,7 +223,12 @@
 
         function hideAdmin() {
             document.getElementById('admin-panel').classList.add('hidden');
-            document.getElementById('step-name').classList.remove('hidden');
+            // Regresar al estado inicial si no hay nombre
+            if(activeUserName === "") {
+                document.getElementById('step-name').classList.remove('hidden');
+            } else {
+                document.getElementById('result-box').classList.remove('hidden');
+            }
         }
 
         function loadGroupResults() {
@@ -223,7 +236,7 @@
                 document.getElementById('admin-loading').classList.remove('hidden');
                 window.firebaseLoadFunction();
             } else {
-                alert("La conexión con la base de datos no está lista.");
+                alert("Base de datos no disponible todavía.");
             }
         }
     </script>
@@ -262,7 +275,7 @@
                         snapshot.forEach((doc) => {
                             const data = doc.data();
                             const row = `<tr>
-                                <td class="p-3 border-b text-sm">${data.alumno}</td>
+                                <td class="p-3 border-b text-sm font-medium">${data.alumno}</td>
                                 <td class="p-3 border-b text-sm font-bold text-indigo-600">${data.puntos} / 5</td>
                                 <td class="p-3 border-b text-xs text-slate-400">${data.fecha || 'N/A'}</td>
                             </tr>`;
@@ -270,12 +283,12 @@
                         });
                     }, (error) => {
                         console.error("Error al cargar:", error);
-                        document.getElementById('admin-loading').innerText = "Error al cargar datos.";
+                        document.getElementById('admin-loading').innerText = "Acceso denegado o error de red.";
                     });
                 };
             }
         } catch (err) {
-            console.log("Firebase no disponible en este entorno.");
+            console.log("Modo offline: Firebase no detectado.");
         }
     </script>
 </body>
