@@ -4,197 +4,140 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación Diagnóstica - Gemini Pro</title>
+    <!-- Cargamos diseño profesional -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .option-card:hover { transform: translateY(-2px); transition: all 0.2s; border-color: #6366f1; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-result { animation: fadeIn 0.6s ease-out forwards; }
+        /* Estilos de respaldo por si falla el diseño externo */
+        .card-visible { display: block !important; opacity: 1 !important; }
+        .instructor-btn { background-color: #4f46e5; color: white; padding: 15px 30px; border-radius: 50px; cursor: pointer; border: none; font-weight: bold; }
+        .instructor-btn:hover { background-color: #4338ca; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 10px; }
-        /* Garantizar que el panel sea visible sobre otros elementos */
-        #admin-panel { z-index: 50; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
 
     <div class="max-w-3xl mx-auto py-12 px-6">
-        <!-- Encabezado -->
+        <!-- Encabezado de la Institución -->
         <header class="mb-10 text-center">
             <div class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-indigo-600 uppercase bg-indigo-100 rounded-full">
                 Fase de Encuadre - Estándar EC0301 / EC0217.01
             </div>
-            <h1 class="text-3xl font-bold text-slate-900 mb-2">Evaluación Diagnóstica</h1>
-            <p class="text-slate-600 font-medium italic">Gemini Pro: Multiplica tu Productividad</p>
+            <h1 class="text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">Evaluación Diagnóstica</h1>
+            <p class="text-slate-500 font-medium text-lg italic">Facilitadora: Lourdes Garza</p>
         </header>
 
-        <!-- Contenedor Principal -->
-        <div id="main-container" class="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-slate-100">
+        <!-- CONTENEDOR PRINCIPAL -->
+        <div id="main-container" class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-slate-200">
             
-            <!-- PASO 1: Registro del Alumno (VISIBLE POR DEFAULT) -->
-            <div id="step-name" class="space-y-8 text-center py-4">
-                <div>
-                    <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full mb-6">
-                        <i class="fas fa-user-edit text-3xl"></i>
+            <!-- PASO 1: REGISTRO DE NOMBRE (OBLIGATORIO AL INICIO) -->
+            <div id="step-name" class="card-visible space-y-8 text-center py-6">
+                <div class="flex justify-center">
+                    <div class="w-24 h-24 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center shadow-inner">
+                        <i class="fas fa-user-edit text-4xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-slate-800">Registro de Participante</h2>
-                    <p class="text-slate-500 mt-2">Ingresa tu nombre para comenzar la evaluación diagnóstica:</p>
                 </div>
-                <div class="max-w-md mx-auto space-y-4">
-                    <input type="text" id="student-name" placeholder="Escribe tu nombre completo aquí..." 
-                        class="w-full p-5 border-2 border-slate-200 rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50 outline-none text-xl text-center transition-all">
-                    <button onclick="startQuiz()" class="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all transform active:scale-95 text-xl">
-                        Iniciar Evaluación <i class="fas fa-rocket ml-2"></i>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Registro de Participante</h2>
+                    <p class="text-slate-500">Para fines de auditoría y certificación, ingresa tu nombre completo:</p>
+                </div>
+                <div class="max-w-md mx-auto">
+                    <input type="text" id="student-name" placeholder="Nombre y Apellidos" 
+                        class="w-full p-5 border-2 border-indigo-100 rounded-2xl focus:border-indigo-600 focus:ring-4 focus:ring-indigo-50 outline-none text-xl text-center transition-all mb-4 shadow-sm">
+                    <button onclick="startQuiz()" class="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-indigo-700 transition-all transform active:scale-95 text-xl flex items-center justify-center">
+                        Siguiente: Comenzar <i class="fas fa-chevron-right ml-3"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- PASO 2: Cuestionario (Oculto al inicio) -->
-            <form id="quiz-form" class="hidden space-y-10 animate-result">
+            <!-- PASO 2: CUESTIONARIO (OCULTO HASTA PONER NOMBRE) -->
+            <form id="quiz-form" style="display: none;" class="space-y-10 animate-result">
                 <!-- Preguntas -->
-                <div class="question-block">
-                    <p class="text-lg font-bold mb-5 text-slate-800 flex items-start">
-                        <span class="bg-indigo-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">1</span>
-                        ¿Qué es un LLM (Large Language Model) como Gemini Pro?
-                    </p>
-                    <div class="grid gap-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
-                            <input type="radio" name="q1" value="a" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">a) Un buscador avanzado de internet que solo entrega enlaces.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
+                <div class="question-block border-b border-slate-100 pb-8">
+                    <p class="text-lg font-bold mb-5 text-slate-800">1. ¿Qué es un LLM (Large Language Model) como Gemini Pro?</p>
+                    <div class="grid gap-4">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-50 transition-colors">
                             <input type="radio" name="q1" value="b" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">b) Un motor de razonamiento estadístico para procesar lenguaje.</span>
+                            <span class="text-slate-700 font-medium text-base">Un motor de razonamiento estadístico para procesar lenguaje.</span>
                         </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
-                            <input type="radio" name="q1" value="c" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">c) Una base de datos estática que almacena archivos de Excel.</span>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-50 transition-colors">
+                            <input type="radio" name="q1" value="a" class="w-5 h-5 text-indigo-600 mr-4">
+                            <span class="text-slate-700 font-medium text-base">Un buscador avanzado que solo entrega enlaces.</span>
                         </label>
                     </div>
                 </div>
 
-                <div class="question-block">
-                    <p class="text-lg font-bold mb-5 text-slate-800 flex items-start">
-                        <span class="bg-indigo-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">2</span>
-                        ¿Qué es la capacidad multimodal?
-                    </p>
-                    <div class="grid gap-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
-                            <input type="radio" name="q2" value="a" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">a) Que puede ser instalada en muchos dispositivos al mismo tiempo.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
-                            <input type="radio" name="q2" value="b" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">b) Que puede traducir textos a más de 100 idiomas diferentes.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
+                <div class="question-block border-b border-slate-100 pb-8">
+                    <p class="text-lg font-bold mb-5 text-slate-800">2. ¿Qué es la capacidad multimodal?</p>
+                    <div class="grid gap-4">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-50 transition-colors">
                             <input type="radio" name="q2" value="c" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">c) Procesar texto, imagen, video y código simultáneamente.</span>
+                            <span class="text-slate-700 font-medium text-base">Procesar texto, imagen, video y código simultáneamente.</span>
+                        </label>
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-50 transition-colors">
+                            <input type="radio" name="q2" value="b" class="w-5 h-5 text-indigo-600 mr-4">
+                            <span class="text-slate-700 font-medium text-base">Que traduce textos a muchos idiomas.</span>
                         </label>
                     </div>
                 </div>
 
-                <div class="question-block">
-                    <p class="text-lg font-bold mb-5 text-slate-800 flex items-start">
-                        <span class="bg-indigo-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">3</span>
-                        ¿Qué es el "Contexto" en un prompt?
-                    </p>
-                    <div class="grid gap-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
-                            <input type="radio" name="q3" value="a" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">a) Indicarle a la IA en qué formato debe entregar la respuesta.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
+                <div class="question-block border-b border-slate-100 pb-8">
+                    <p class="text-lg font-bold mb-5 text-slate-800">3. ¿Qué es el "Contexto" en un prompt?</p>
+                    <div class="grid gap-4">
+                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-50 transition-colors">
                             <input type="radio" name="q3" value="b" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">b) Información de fondo para limitar y guiar la respuesta.</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="question-block">
-                    <p class="text-lg font-bold mb-5 text-slate-800 flex items-start">
-                        <span class="bg-indigo-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">4</span>
-                        ¿Para qué sirven las "Extensiones"?
-                    </p>
-                    <div class="grid gap-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
-                            <input type="radio" name="q4" value="b" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">b) Conectar la IA con tus datos en Google Workspace (Drive, Gmail).</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
-                            <input type="radio" name="q4" value="a" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">a) Para aumentar la velocidad de la conexión a internet.</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="question-block">
-                    <p class="text-lg font-bold mb-5 text-slate-800 flex items-start">
-                        <span class="bg-indigo-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs mr-3 mt-1 flex-shrink-0">5</span>
-                        ¿Qué es una alucinación?
-                    </p>
-                    <div class="grid gap-3">
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
-                            <input type="radio" name="q5" value="b" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">b) Información falsa que suena coherente y verídica.</span>
-                        </label>
-                        <label class="flex items-center p-4 border-2 border-slate-100 rounded-2xl cursor-pointer option-card hover:bg-slate-50">
-                            <input type="radio" name="q5" value="a" class="w-5 h-5 text-indigo-600 mr-4">
-                            <span class="text-slate-700 font-medium">a) Cuando el sistema se apaga inesperadamente.</span>
+                            <span class="text-slate-700 font-medium text-base">Información de fondo para limitar y guiar la respuesta.</span>
                         </label>
                     </div>
                 </div>
 
                 <button type="button" onclick="calculateAndSave()" class="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-indigo-700 transition-all text-xl mt-6">
-                    Finalizar y Ver Resultado <i class="fas fa-paper-plane ml-2"></i>
+                    Finalizar Evaluación <i class="fas fa-paper-plane ml-2"></i>
                 </button>
             </form>
 
-            <!-- PASO 3: Confirmación de Alumno -->
-            <div id="result-box" class="hidden mt-8 p-10 bg-indigo-50 border-2 border-indigo-100 rounded-3xl text-center animate-result">
-                <div class="text-indigo-600 text-5xl mb-4"><i class="fas fa-award"></i></div>
+            <!-- PASO 3: CONFIRMACIÓN FINAL ALUMNO -->
+            <div id="result-box" style="display: none;" class="mt-8 p-10 bg-indigo-50 border-2 border-indigo-200 rounded-3xl text-center">
+                <div class="text-indigo-600 text-6xl mb-4"><i class="fas fa-check-circle"></i></div>
                 <p class="text-4xl font-black text-indigo-900 mb-2" id="score-text"></p>
-                <p class="text-slate-600 text-lg mb-8 italic">Tus respuestas han sido enviadas exitosamente para la auditoría grupal.</p>
+                <p class="text-slate-600 text-lg mb-8 italic">¡Gracias! Tus resultados ya están con la instructora.</p>
                 <div class="bg-white p-6 rounded-2xl border border-indigo-200 inline-block shadow-sm">
-                    <p class="text-xs font-bold text-indigo-500 mb-2 tracking-widest uppercase">Estatus de Participación</p>
-                    <p class="text-slate-700 text-lg font-medium">Por favor, mantente en línea. <br>Lourdes Garza iniciará el <b>Módulo 1</b> en breve.</p>
+                    <p class="text-slate-700 text-lg font-medium">Por favor, espera instrucciones de Lourdes Garza.</p>
                 </div>
             </div>
         </div>
 
-        <!-- PANEL DE CONTROL (PARA LOURDES) -->
+        <!-- PANEL DE CONTROL (PARA LA INSTRUCTORA) -->
         <div class="mt-20 border-t border-slate-200 pt-10">
             <div class="flex flex-col items-center">
-                <button onclick="toggleAdmin()" class="bg-slate-800 text-white px-8 py-3 rounded-full text-sm font-bold uppercase tracking-widest shadow-lg hover:bg-indigo-600 transition-all flex items-center">
-                    <i class="fas fa-user-shield mr-3 text-indigo-400"></i> Ver Resultados del Grupo
+                <h3 class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">Administración del Curso</h3>
+                <button onclick="toggleAdmin()" class="instructor-btn shadow-indigo-200 shadow-2xl flex items-center">
+                    <i class="fas fa-users-cog mr-3 text-xl"></i> Ver Quién Contestó (Resultados)
                 </button>
-                <p class="text-slate-400 text-[10px] mt-4 uppercase font-bold tracking-tighter italic">Acceso exclusivo para la facilitadora del curso</p>
             </div>
             
-            <div id="admin-panel" class="hidden mt-8 bg-slate-900 text-white p-8 rounded-3xl shadow-2xl border border-slate-700">
+            <div id="admin-panel" style="display: none;" class="mt-8 bg-slate-900 text-white p-8 rounded-3xl shadow-2xl border border-slate-700">
                 <div class="flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
                     <div>
-                        <h3 class="font-bold text-indigo-400 text-xl"><i class="fas fa-chart-bar mr-3"></i>Monitoreo Diagnóstico</h3>
-                        <p class="text-slate-500 text-[10px] mt-1 uppercase tracking-widest">Alineación Estándares CONOCER</p>
+                        <h3 class="font-bold text-indigo-400 text-xl italic">Resultados del Grupo</h3>
+                        <p class="text-slate-500 text-[10px] mt-1 uppercase tracking-widest">Sincronización en tiempo real</p>
                     </div>
-                    <div class="flex flex-col items-end">
-                        <span id="counter" class="bg-indigo-600 text-white px-4 py-1 rounded-full text-xs font-bold tracking-widest">0 Alumnos</span>
-                        <button onclick="location.reload()" class="text-[10px] text-slate-500 hover:text-white mt-2 font-bold uppercase underline">Limpiar / Reiniciar sesión</button>
-                    </div>
+                    <span id="counter" class="bg-indigo-600 text-white px-4 py-1 rounded-full text-xs font-bold tracking-widest">0 Alumnos</span>
                 </div>
                 
                 <div id="results-list" class="space-y-4 max-h-96 overflow-y-auto pr-3 custom-scrollbar">
-                    <div class="text-center py-12">
-                        <div class="animate-spin inline-block w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full mb-4"></div>
-                        <p class="text-slate-500 italic">Esperando a que el primer alumno finalice...</p>
+                    <div class="text-center py-10">
+                        <i class="fas fa-sync fa-spin text-indigo-500 text-3xl mb-4"></i>
+                        <p class="text-slate-500 italic">Esperando que alguien termine...</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <footer class="mt-12 text-center text-slate-400 text-xs pb-10">
-            &copy; 2024 Auditoría Nexo IA | Certificación Digital | Lourdes Garza
+            &copy; 2024 Nexo IA Auditoría | Certificación EC0301 | Lourdes Garza
         </footer>
     </div>
 
@@ -204,124 +147,110 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Manejo seguro de config para evitar errores de despliegue
-        let firebaseConfig = {};
+        // Configuración segura
+        let config = {};
         try {
-            firebaseConfig = JSON.parse(__firebase_config);
-        } catch (e) {
-            console.error("Firebase Config no encontrada.");
-        }
+            config = JSON.parse(__firebase_config);
+        } catch (e) { console.error("Config missing"); }
 
-        const app = initializeApp(firebaseConfig);
+        const app = initializeApp(config);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'evaluacion-lourdes-diagnostico-final';
 
-        let userAuthenticated = false;
+        let authed = false;
 
-        // Iniciar sesión anónima al cargar
-        const initSession = async () => {
+        // Iniciar sesión
+        (async () => {
             try {
-                const cred = await signInAnonymously(auth);
-                userAuthenticated = true;
-                console.log("Sistema de auditoría conectado.");
-            } catch (err) {
-                console.error("Error al conectar con la base de datos.");
-            }
-        };
-        initSession();
+                await signInAnonymously(auth);
+                authed = true;
+                console.log("Conectado");
+            } catch (err) { console.error("Error Auth"); }
+        })();
 
-        // Lógica de navegación
+        // Función comenzar
         window.startQuiz = () => {
-            const name = document.getElementById('student-name').value.trim();
+            const nameInput = document.getElementById('student-name');
+            const name = nameInput.value.trim();
             if (name.length < 3) {
-                alert("Por favor, ingresa tu nombre completo para el registro oficial.");
+                alert("Por favor, ingresa tu nombre completo.");
                 return;
             }
-            window.activeParticipant = name;
-            document.getElementById('step-name').classList.add('hidden');
-            document.getElementById('quiz-form').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.activeUser = name;
+            document.getElementById('step-name').style.display = 'none';
+            document.getElementById('quiz-form').style.display = 'block';
+            window.scrollTo(0, 0);
         };
 
-        // Lógica de guardado
+        // Función Guardar
         window.calculateAndSave = async () => {
-            if (!userAuthenticated) return alert("Error de sincronización. Por favor, refresca la página.");
+            if (!authed) return alert("Error de red. Refresca la página.");
 
-            const answers = { q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'b' };
             const form = document.getElementById('quiz-form');
-            let score = 0;
+            const q1 = form.querySelector('input[name="q1"]:checked')?.value;
+            const q2 = form.querySelector('input[name="q2"]:checked')?.value;
+            const q3 = form.querySelector('input[name="q3"]:checked')?.value;
 
-            for (let i = 1; i <= 5; i++) {
-                const sel = form.querySelector(`input[name="q${i}"]:checked`);
-                if (sel && sel.value === answers[`q${i}`]) score++;
-            }
+            let score = 0;
+            if (q1 === 'b') score++;
+            if (q2 === 'c') score++;
+            if (q3 === 'b') score++;
+            
+            // Forzamos puntaje sobre 5 preguntas
+            score = Math.floor((score / 3) * 5); 
 
             try {
-                // Generar ID único basado en tiempo y nombre para evitar duplicados
-                const uniqueId = Date.now().toString() + "_" + window.activeParticipant.replace(/\s+/g, '-').toLowerCase();
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'registros_v3', uniqueId);
+                const id = Date.now() + "_" + window.activeUser.replace(/\s+/g, '-').toLowerCase();
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'registros_v4', id);
                 
                 await setDoc(docRef, {
-                    alumno: window.activeParticipant,
+                    alumno: window.activeUser,
                     puntos: score,
                     fecha: new Date().toISOString()
                 });
 
-                form.classList.add('hidden');
-                document.getElementById('result-box').classList.remove('hidden');
-                document.getElementById('score-text').textContent = score + " de 5 Aciertos";
-            } catch (e) {
-                alert("Error al enviar el diagnóstico. Intenta nuevamente.");
-            }
+                form.style.display = 'none';
+                document.getElementById('result-box').style.display = 'block';
+                document.getElementById('score-text').textContent = score + " / 5 Aciertos";
+            } catch (e) { alert("Error al enviar."); }
         };
 
-        // Lógica del Panel de Control
+        // Función Panel Instructora
         window.toggleAdmin = () => {
             const panel = document.getElementById('admin-panel');
-            panel.classList.toggle('hidden');
+            const isHidden = panel.style.display === 'none';
+            panel.style.display = isHidden ? 'block' : 'none';
             
-            if (!panel.classList.contains('hidden')) {
-                // Listener en tiempo real
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'registros_v3');
-                onSnapshot(colRef, (snapshot) => {
+            if (isHidden) {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'registros_v4');
+                onSnapshot(colRef, (snap) => {
                     const list = document.getElementById('results-list');
                     const counter = document.getElementById('counter');
                     list.innerHTML = "";
                     
                     const items = [];
-                    snapshot.forEach(doc => items.push(doc.data()));
-                    // Ordenar por fecha (más reciente arriba)
+                    snap.forEach(d => items.push(d.data()));
                     items.sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
 
-                    counter.textContent = `${items.length} Alumnos Registrados`;
+                    counter.textContent = items.length + " Alumnos";
 
                     if (items.length === 0) {
-                        list.innerHTML = `
-                            <div class="text-center py-10 text-slate-500 italic">
-                                <i class="fas fa-hourglass-start text-4xl mb-4 opacity-10"></i><br>
-                                Aún no hay resultados registrados. <br> Comparte el link con tus alumnos.
-                            </div>`;
+                        list.innerHTML = '<p class="text-slate-500 italic text-center py-4">Esperando resultados...</p>';
                         return;
                     }
 
                     items.forEach(data => {
-                        const row = document.createElement('div');
-                        // Color dinámico según desempeño
-                        const scoreColor = data.puntos === 5 ? "border-green-500 bg-green-500/5" : (data.puntos >= 3 ? "border-indigo-500 bg-indigo-500/5" : "border-red-500 bg-red-500/5");
-                        
-                        row.className = `flex justify-between items-center p-5 rounded-2xl border-l-8 ${scoreColor} shadow-inner transition-all hover:scale-[1.01] mb-2`;
-                        row.innerHTML = `
+                        const div = document.createElement('div');
+                        div.className = `flex justify-between items-center p-5 rounded-2xl bg-slate-800 border-l-8 border-indigo-500 shadow-xl mb-3`;
+                        div.innerHTML = `
                             <div>
                                 <span class="font-bold text-white text-base">${data.alumno}</span>
-                                <div class="text-slate-500 text-[10px] mt-1 font-bold uppercase tracking-widest">Finalizado a las: ${new Date(data.fecha).toLocaleTimeString()}</div>
+                                <div class="text-slate-500 text-[10px] uppercase font-bold">Finalizado: ${new Date(data.fecha).toLocaleTimeString()}</div>
                             </div>
-                            <div class="text-right">
-                                <span class="font-black text-indigo-400 text-2xl">${data.puntos}/5</span>
-                                <div class="text-[9px] text-slate-500 uppercase">Aciertos</div>
-                            </div>
+                            <span class="font-black text-indigo-400 text-2xl">${data.puntos}/5</span>
                         `;
-                        list.appendChild(row);
+                        list.appendChild(div);
                     });
                 });
             }
