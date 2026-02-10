@@ -11,12 +11,9 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-result { animation: fadeIn 0.6s ease-out forwards; }
         .hidden { display: none !important; }
-        /* Resaltado especial para el botón de admin */
-        .admin-trigger { 
-            background: #fff1f2;
-            border: 2px dashed #f43f5e;
-            color: #e11d48;
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
@@ -28,11 +25,6 @@
             </div>
             <h1 class="text-3xl font-bold text-slate-900 mb-2">Evaluación Diagnóstica</h1>
             <p class="text-slate-600 font-medium italic">Gemini Pro: Multiplica tu Productividad</p>
-            
-            <!-- Icono de Candado Resaltado -->
-            <button onclick="showAdminPrompt()" class="absolute top-0 right-0 p-3 text-orange-500 hover:text-orange-700 transition-colors bg-orange-50 rounded-full shadow-sm" title="Acceso Instructor">
-                <i class="fas fa-lock text-2xl"></i>
-            </button>
         </header>
 
         <div id="main-container" class="bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
@@ -114,62 +106,76 @@
             <div id="result-box" class="hidden mt-8 p-10 bg-indigo-50 border-2 border-indigo-200 rounded-2xl text-center animate-result">
                 <p class="text-4xl font-black text-indigo-900 mb-2" id="score-text"></p>
                 <p class="text-slate-700 text-lg mb-6">Resultados registrados correctamente.</p>
-                <div class="bg-white p-6 rounded-2xl border border-indigo-100 inline-block shadow-sm mb-10">
+                <div class="bg-white p-6 rounded-2xl border border-indigo-100 inline-block shadow-sm">
                     <p class="text-slate-600 text-lg italic">"Por favor, espera a que la instructora inicie el <b>Módulo 1</b>."</p>
-                </div>
-                
-                <!-- BOTÓN DE ACCESO INSTRUCTOR GIGANTE -->
-                <div class="pt-6 border-t border-indigo-200">
-                    <button onclick="showAdminPrompt()" class="admin-trigger px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-sm hover:bg-rose-100 transition-all">
-                        <i class="fas fa-user-shield mr-2"></i> Abrir Panel de Instructor (Password)
-                    </button>
                 </div>
             </div>
 
-            <!-- PASO 4: Panel Admin -->
+            <!-- PASO 4: Panel Admin (Instructora) -->
             <div id="admin-panel" class="hidden space-y-6 animate-result">
                 <div class="flex justify-between items-center border-b pb-4">
-                    <h2 class="text-xl font-bold text-slate-800">Resultados del Grupo</h2>
-                    <button onclick="hideAdmin()" class="bg-slate-100 px-4 py-2 rounded-lg text-slate-600 hover:bg-red-500 hover:text-white transition-all text-xs font-bold uppercase">Cerrar Panel X</button>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">Panel de Control: Lourdes Garza</h2>
+                        <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Monitoreo del Grupo en Tiempo Real</p>
+                    </div>
+                    <button onclick="hideAdmin()" class="bg-slate-100 text-slate-500 px-4 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 font-bold transition-all">Cerrar Panel</button>
                 </div>
-                <div class="overflow-x-auto">
+                
+                <div class="bg-indigo-600 p-4 rounded-xl text-white flex justify-between items-center shadow-lg">
+                    <span class="font-bold uppercase tracking-tighter italic text-sm">Estado de Auditoría: Activo</span>
+                    <span id="counter" class="bg-white text-indigo-600 px-3 py-1 rounded-full text-xs font-black">0 Alumnos</span>
+                </div>
+
+                <div class="overflow-x-auto border rounded-xl custom-scrollbar">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50 text-slate-400 uppercase text-xs tracking-wider">
-                                <th class="p-3 border-b font-bold">Alumno</th>
-                                <th class="p-3 border-b font-bold">Puntaje</th>
-                                <th class="p-3 border-b font-bold">Fecha</th>
+                            <tr class="bg-slate-50">
+                                <th class="p-4 border-b font-bold text-slate-500 uppercase text-[10px] tracking-widest">Alumno</th>
+                                <th class="p-4 border-b font-bold text-slate-500 uppercase text-[10px] tracking-widest">Puntaje</th>
+                                <th class="p-4 border-b font-bold text-slate-500 uppercase text-[10px] tracking-widest">Fecha y Hora</th>
                             </tr>
                         </thead>
-                        <tbody id="results-table-body" class="divide-y divide-slate-100">
+                        <tbody id="results-table-body" class="text-sm">
                             <!-- Los datos se cargan aquí -->
                         </tbody>
                     </table>
                 </div>
-                <div id="admin-loading" class="text-center text-slate-400 py-8 hidden">
-                    <i class="fas fa-spinner fa-spin text-2xl mb-2"></i> <br>Sincronizando con la nube...
+                <div id="admin-loading" class="text-center text-slate-400 py-10 hidden">
+                    <i class="fas fa-sync fa-spin text-3xl mb-4"></i>
+                    <p class="italic">Sincronizando con la nube...</p>
                 </div>
             </div>
         </div>
+
+        <!-- Botón secreto o discreto para la instructora al final -->
+        <div class="mt-12 text-center">
+            <button onclick="showAdminPrompt()" class="text-slate-300 hover:text-indigo-400 text-xs font-bold uppercase tracking-widest transition-all">
+                <i class="fas fa-user-shield mr-1"></i> Acceso Instructora (Auditado)
+            </button>
+        </div>
+
+        <footer class="mt-8 text-center text-slate-400 text-[10px] uppercase tracking-tighter">
+            &copy; 2024 Auditoría Técnica Nexo IA | Certificación EC0301
+        </footer>
     </div>
 
     <script>
         var activeUserName = "";
-        const ADMIN_PASS = "admin123"; 
+        const ADMIN_PASS = "1234"; // TU CONTRASEÑA
 
         function startAppNow() {
             var input = document.getElementById('student-name');
             var name = input ? input.value.trim() : "";
             
             if (name.length < 3) {
-                alert("Por favor, ingresa tu nombre completo.");
+                alert("Por favor, ingresa tu nombre completo para el registro oficial.");
                 return;
             }
             
             activeUserName = name;
             document.getElementById('step-name').classList.add('hidden');
             document.getElementById('quiz-form').classList.remove('hidden');
-            window.scrollTo(0,0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function submitQuizNow() {
@@ -180,13 +186,13 @@
             }
 
             if(answeredCount < totalQuestions) {
-                alert("Por favor, responde todas las preguntas antes de finalizar.");
+                alert("Por favor, responde todas las preguntas antes de finalizar para cumplir con el estándar.");
                 return;
             }
 
             var btn = document.getElementById('btn-submit');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Guardando calificación...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Guardando registro...';
 
             var score = 0;
             var answers = { q1: 'b', q2: 'c', q3: 'b', q4: 'b', q5: 'b' };
@@ -202,27 +208,30 @@
                 try {
                     await window.firebaseSaveFunction(activeUserName, score);
                 } catch (e) {
-                    console.warn("Fallo Firebase, modo local.");
+                    console.warn("Error de conexión");
                 }
             }
 
             document.getElementById('quiz-form').classList.add('hidden');
             document.getElementById('result-box').classList.remove('hidden');
             document.getElementById('score-text').innerText = score + " / 5 Aciertos";
-            window.scrollTo(0,0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // PANEL ADMINISTRATIVO - DISPARADOR DE PASSWORD
+        // PANEL ADMINISTRATIVO
         function showAdminPrompt() {
-            const pass = prompt("ACCESO RESTRINGIDO PARA INSTRUCTORES\nIntroduce la clave para ver resultados:");
+            const pass = prompt("Acceso Restringido. Introduce tu contraseña de instructora:");
             if (pass === ADMIN_PASS) {
+                // Ocultar todo lo demás
                 document.getElementById('step-name').classList.add('hidden');
                 document.getElementById('quiz-form').classList.add('hidden');
                 document.getElementById('result-box').classList.add('hidden');
+                
+                // Mostrar Panel
                 document.getElementById('admin-panel').classList.remove('hidden');
                 loadGroupResults();
             } else if (pass !== null) {
-                alert("Clave incorrecta. Acceso denegado.");
+                alert("Acceso denegado. Contraseña incorrecta.");
             }
         }
 
@@ -240,60 +249,84 @@
                 document.getElementById('admin-loading').classList.remove('hidden');
                 window.firebaseLoadFunction();
             } else {
-                alert("La base de datos aún se está conectando. Intenta de nuevo en 3 segundos.");
+                alert("Iniciando conexión con la base de datos...");
             }
         }
     </script>
 
-    <!-- FIREBASE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, doc, setDoc, collection, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        try {
-            if (typeof __firebase_config !== 'undefined') {
-                const config = JSON.parse(__firebase_config);
-                const app = initializeApp(config);
-                const db = getFirestore(app);
-                const auth = getAuth(app);
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'eval-diagnostica-v2';
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'eval-diagnostica-lourdes';
 
-                signInAnonymously(auth);
+        let user = null;
 
-                window.firebaseSaveFunction = async (name, score) => {
-                    const docId = 'res_' + Date.now();
-                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'respuestas', docId), {
-                        alumno: name,
-                        puntos: score,
-                        fecha: new Date().toLocaleString()
-                    });
-                };
-
-                window.firebaseLoadFunction = () => {
-                    const q = collection(db, 'artifacts', appId, 'public', 'data', 'respuestas');
-                    onSnapshot(q, (snapshot) => {
-                        const tbody = document.getElementById('results-table-body');
-                        tbody.innerHTML = '';
-                        document.getElementById('admin-loading').classList.add('hidden');
-                        
-                        snapshot.forEach((doc) => {
-                            const data = doc.data();
-                            const row = `<tr>
-                                <td class="p-3 border-b text-sm font-semibold text-slate-700">${data.alumno}</td>
-                                <td class="p-3 border-b text-sm font-black text-indigo-600 text-center">${data.puntos} / 5</td>
-                                <td class="p-3 border-b text-[10px] text-slate-400 uppercase text-right">${data.fecha || 'N/A'}</td>
-                            </tr>`;
-                            tbody.insertAdjacentHTML('beforeend', row);
-                        });
-                    }, (err) => {
-                        document.getElementById('admin-loading').innerText = "Error de permisos en Firebase.";
-                    });
-                };
+        // Regla 3: Autenticación robusta antes de cualquier operación
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
             }
-        } catch (err) {
-            console.warn("Sin Firebase detectado.");
-        }
+        };
+
+        onAuthStateChanged(auth, (u) => {
+            user = u;
+            console.log("Sistema de auditoría conectado.");
+        });
+
+        initAuth();
+
+        window.firebaseSaveFunction = async (name, score) => {
+            if (!user) return;
+            // Regla 1: Ruta estricta para datos públicos del artefacto
+            const docId = 'res_' + Date.now();
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'respuestas', docId), {
+                alumno: name,
+                puntos: score,
+                fecha: new Date().toLocaleString(),
+                timestamp: Date.now()
+            });
+        };
+
+        window.firebaseLoadFunction = () => {
+            if (!user) return;
+            // Regla 2: Consulta simple a la colección pública
+            const q = collection(db, 'artifacts', appId, 'public', 'data', 'respuestas');
+            onSnapshot(q, (snapshot) => {
+                const tbody = document.getElementById('results-table-body');
+                const counter = document.getElementById('counter');
+                tbody.innerHTML = '';
+                document.getElementById('admin-loading').classList.add('hidden');
+                
+                let results = [];
+                snapshot.forEach((doc) => {
+                    results.push(doc.data());
+                });
+
+                // Ordenar por tiempo (más reciente primero) en memoria
+                results.sort((a, b) => b.timestamp - a.timestamp);
+                counter.innerText = results.length + " Alumnos";
+
+                results.forEach((data) => {
+                    const statusColor = data.puntos === 5 ? "text-green-600" : (data.puntos >= 3 ? "text-indigo-600" : "text-amber-600");
+                    const row = `<tr>
+                        <td class="p-4 border-b font-medium text-slate-700">${data.alumno}</td>
+                        <td class="p-4 border-b font-black ${statusColor}">${data.puntos} / 5</td>
+                        <td class="p-4 border-b text-xs text-slate-400 font-mono">${data.fecha}</td>
+                    </tr>`;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+            }, (error) => {
+                console.error("Error al cargar:", error);
+            });
+        };
     </script>
 </body>
 </html>
